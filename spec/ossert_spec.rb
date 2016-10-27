@@ -100,4 +100,38 @@ describe Ossert do
       end
     end
   end
+
+  describe 'QuartersStore' do
+    describe '.build_quarters_intervals' do
+      context 'with valid period' do
+        let(:period) do
+          { from: Time.parse('2013-09-01'), to: Time.parse('2015-09-01') }
+        end
+        let(:quarters) do
+          [
+            ['2013-07-01', '2013-09-30'],
+            ['2013-10-01', '2013-12-31'],
+            ['2014-01-01', '2014-03-31'],
+            ['2014-04-01', '2014-06-30'],
+            ['2014-07-01', '2014-09-30'],
+            ['2014-10-01', '2014-12-31'],
+            ['2015-01-01', '2015-03-31'],
+            ['2015-04-01', '2015-06-30'],
+            ['2015-07-01', '2015-09-30']
+          ].map do |(start, finish)|
+            [Time.parse(start).to_i, Time.parse(finish).end_of_day.to_i]
+          end
+        end
+        it do
+          expect(Ossert::QuartersStore.build_quarters_intervals(period)).to eq(quarters)
+        end
+      end
+      context 'with invalid period' do
+        let(:period){ { from: 1.year.ago, to: 3.years.ago } }
+        it do
+          expect(Ossert::QuartersStore.build_quarters_intervals(period)).to eq([])
+        end
+      end
+    end
+  end
 end

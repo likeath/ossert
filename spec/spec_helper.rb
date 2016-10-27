@@ -29,7 +29,11 @@ VCR.configure do |c|
     # TODO: Track down UTF-8 issue and remove
     preserve_exact_body_bytes: true,
     decode_compressed_response: true,
-    record: ENV['TRAVIS'] ? :none : :once
+    record: ENV['TRAVIS'] ? :none : :once,
+    match_requests_on: [
+      :method,
+      VCR.request_matchers.uri_without_params(:fromdate, :todate)
+    ]
   }
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
@@ -49,27 +53,27 @@ RSpec.configure do |config|
 
     threads = []
     threads << Thread.new do
-      VCR.use_cassette 'fetch_a_project' do
+      VCR.use_cassette 'fetch_a_project', allow_playback_repeats: true do
         Ossert::Project.fetch_all(@a_project, 'ClassA')
       end
     end
     threads << Thread.new do
-      VCR.use_cassette 'fetch_b_project' do
+      VCR.use_cassette 'fetch_b_project', allow_playback_repeats: true do
         Ossert::Project.fetch_all(@b_project, 'ClassB')
       end
     end
     threads << Thread.new do
-      VCR.use_cassette 'fetch_c_project' do
+      VCR.use_cassette 'fetch_c_project', allow_playback_repeats: true do
         Ossert::Project.fetch_all(@c_project, 'ClassC')
       end
     end
     threads << Thread.new do
-      VCR.use_cassette 'fetch_d_project' do
+      VCR.use_cassette 'fetch_d_project', allow_playback_repeats: true do
         Ossert::Project.fetch_all(@d_project, 'ClassD')
       end
     end
     threads << Thread.new do
-      VCR.use_cassette 'fetch_e_project' do
+      VCR.use_cassette 'fetch_e_project', allow_playback_repeats: true do
         Ossert::Project.fetch_all(@e_project, 'ClassE')
       end
     end

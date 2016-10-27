@@ -40,3 +40,5 @@ descriptions:
   total_downloads: Total number of downloads since first day of the project
   delta_downloads: Number of downloads that were made during period
   download_divergence: Downloads Growth From Previous Period %
+  stack_overflow_questions_count: Number of StackOverflow questions tagged by project name
+  stack_overflow_answered_questions_percent: Percent of StackOverflow questions tagged by project name with any answers

@@ -5,6 +5,27 @@ module Ossert
   class QuartersStore
     attr_reader :quarters, :data_klass, :start_date, :end_date
 
+    # Public: Build quarter intervals for given period.
+    #   Non-quarter boundaries are expanded to quarters.
+    #
+    # from - Numeric or DateTime of period start
+    # to - Numeric or DateTime of period finish
+    #
+    # Returns Array of interval boundaries as timestamps
+    def self.build_quarters_intervals(from: 1.year.ago, to: Time.current)
+      interval_start = Time.at(from).beginning_of_quarter
+      finish = Time.at(to).end_of_quarter
+      intervals = []
+
+      while interval_start <= finish
+        interval_end = interval_start.end_of_quarter
+        intervals << [interval_start.to_i, interval_end.to_i]
+        interval_start = interval_end + 1.second
+      end
+
+      intervals
+    end
+
     # Public: Instantiate QuarterStore
     #
     # data_klass - the Object for quarter data storage, to be compatable it
@@ -140,6 +161,26 @@ module Ossert
         result[time] = quarter.to_hash
       end
       JSON.generate(hash)
+    end
+
+    # Public: Iterate (and yields) through quarters intervals
+    #         Uses existed quarters if possible,
+    #         otherwise build quarters for year
+    #
+    # Yields the Numeric UNIX-timestamps of beginning and end of qaurter
+    #
+    # Returns nothing
+    def with_quarters_intervals
+      enumerator = if quarters.present?
+                     quarters
+                       .keys.sort
+                       .push(Time.current.end_of_quarter.to_i)
+                       .each_cons(2)
+                   else
+                     self.class.build_quarters_intervals.each
+                   end
+      enumerator.each { |start, finish| yield(start, finish) }
+      nil
     end
   end
 end

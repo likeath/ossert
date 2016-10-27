@@ -95,7 +95,8 @@ stats:
         pr_processed_in_days:
   community:
     total:
-      aggregated_metrics: []
+      aggregated_metrics:
+        - stack_overflow_answered_questions_percent
       metrics:
         - dependants_count
         - users_creating_issues_count
@@ -108,6 +109,8 @@ stats:
         - users_involved_count
         - users_involved_no_stars_count
         - total_downloads
+        - stack_overflow_questions_count
+        - stack_overflow_answered_questions_percent
       attributes:
         dependants: Set
         users_creating_issues: Set
@@ -123,9 +126,12 @@ stats:
         owners_rubygems: Set
         total_downloads:
         delta_downloads:
+        stack_overflow_questions_count:
+        stack_overflow_answered_questions_percent:
     quarter:
       aggregated_metrics:
         - download_divergence
+        - stack_overflow_answered_questions_percent
       metrics:
         - users_creating_issues_count
         - users_commenting_issues_count
@@ -137,6 +143,8 @@ stats:
         - users_involved_no_stars_count
         - download_divergence
         - total_downloads
+        - stack_overflow_questions_count
+        - stack_overflow_answered_questions_percent
       attributes:
         users_creating_issues: Set
         users_commenting_issues: Set
@@ -149,3 +157,5 @@ stats:
         download_divergence:
         total_downloads:
         delta_downloads:
+        stack_overflow_questions_count:
+        stack_overflow_answered_questions_percent:

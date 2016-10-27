@@ -39,3 +39,5 @@ translations:
   total_downloads: 'Number of Downloads'
   delta_downloads: 'Number of Downloads Increased By'
   download_divergence: 'Downloads Growth From Previous Period %'
+  stack_overflow_questions_count: 'Number of StackOverflow Questions'
+  stack_overflow_answered_questions_percent: 'Percent of StackOverflow Questions With Answers'
